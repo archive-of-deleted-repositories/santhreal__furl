@@ -127,6 +127,20 @@ class TestPath(unittest.TestCase):
         p.load(None)
         assert str(p) == ''
 
+    def test_non_string_path_raises_typeerror(self):
+        p = furl.Path('/a')
+        for bad in (1, 1.5, object()):
+            with self.assertRaises(TypeError):
+                p.add(bad)
+            with self.assertRaises(TypeError):
+                p.load(bad)
+        # load(None)/set(None) remain the documented empty-path adopt.
+        p.load(None)
+        assert str(p) == ''
+        p = furl.Path('/a')
+        with self.assertRaises(TypeError):
+            p.add(None)
+
     def test_isdir_isfile(self):
         for path in ['', '/']:
             p = furl.Path(path)

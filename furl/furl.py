@@ -661,11 +661,14 @@ class Path(object):
 
         Raises: UserWarning if <path> is an improperly encoded path
         string and self.strict is True.
+        Raises: TypeError if <path> is not a string.
 
         TODO(grun): Accept both list values and string values and
         refactor the list vs string interface testing to this common
         method.
         """
+        if not isinstance(path, string_types):
+            raise TypeError('Path string required, got %r.' % type(path).__name__)
         segments = []
         for segment in path.split('/'):
             if not is_valid_encoded_path_segment(segment):
